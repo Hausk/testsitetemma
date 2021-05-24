@@ -27,7 +27,7 @@ class Post extends \Temma\Web\Controller {
 	 * - Contenu du post.
 	 */
 	public function creation() {
-		$this->redirect('/post/liste');
+		$this->_redirect('/post/liste/1');
 		$author = trim($_POST['author'] ?? null);
 		$title = trim($_POST['title'] ?? null);
 		$content = trim($_POST['content'] ?? null);
@@ -39,13 +39,12 @@ class Post extends \Temma\Web\Controller {
 	}
 
 	/**
-	* Suppression d'un post.
-	* On récupère l'id du Post :
-	* @param int $id identité du post
-	*/
-	public function suppression() {
-		$this->redirect('/post/liste');
-		$id = $_GET['id'];
+	 * Suppression d'un post.
+	 * On récupère l'id du Post :
+	 * @param int $id identité du post
+	 */
+	public function suppression($id) {
+		$this->_redirect('/post/liste/1');
 		$this->_loader->PostDao->delete($id);
 	}
 }

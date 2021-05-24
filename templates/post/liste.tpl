@@ -5,9 +5,10 @@
         <ul style="display: flex; flex-direction: column; list-style: none">
             {foreach $posts as $post}
                 <li style="max-width: 25vw; margin: 5px auto; border: 1px solid black">
-                    <p style="display: flex; justify-content: space-between;"><span>{$post.author|escape}</span><a href="/post/suppression/{$post.id|escape}">x</a></p><br />
+                    <p style="display: flex; justify-content: space-between;"><span>{$post.author|escape}</span><a href="/post/suppression/{$post.id}">x</a></p><br />
                     {$post.title|escape}<br />
                     {$post.content|escape}
+                    {$post.id|escape}
                 </li>
             {/foreach}
         </ul>
