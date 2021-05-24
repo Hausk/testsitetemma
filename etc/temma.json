@@ -1,0 +1,17 @@
+{
+	"application": {
+		"dataSources": {
+			"db": "mysqli://testsite:testsite@localhost/testsite"
+		},
+		"rootController": "Homepage"
+	},
+	"loglevels": {
+		"Temma/Base": "DEBUG",
+		"Temma/Web": "DEBUG",
+		"testsite": "DEBUG"	
+	},
+	"errorPages": "error404.html",
+	"autoimport": {
+        "siteName": "Site de démo"
+    }
+}
