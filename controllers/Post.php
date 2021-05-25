@@ -18,44 +18,56 @@ class Post extends \Temma\Web\Controller {
 		$this['page'] = $page;
 		$postsCount = $this->_loader->PostDao->getCount();
 		$this['nbrPages'] = ceil($postsCount / self::NBR_POSTS_PER_PAGE) + (($postsCount % self::NBR_POSTS_PER_PAGE) ? 1 : 0);
+		$this['author'] = $this->_session['author'];
 	}
 	/**
-	 * Création d'un nouveau post.
+	 * Création ou mise à jour d'un post.
 	 * Récupère les informations suivantes en POST :
 	 * - Nom de l'auteur.
 	 * - Titre du post.
 	 * - Contenu du post.
+	 * @param	?int	$id	(optionnel) Identifiant du post à mettre à jour. Crée un nouveau post si non fourni.
 	 */
-	public function enregistrer() {
-		$this->_redirect('/post/liste/1');
-		$id = trim($_POST['id'] ?? null);
+	public function enregistrer(?int $id=null) {
+		$this->_redirect('/post/liste');
 		$author = trim($_POST['author'] ?? null);
 		$title = trim($_POST['title'] ?? null);
 		$content = trim($_POST['content'] ?? null);
+		
+		$this->_session['author'] = $author;
+		// vérification des paramètres
 		if (!$author || !$title || !$content) {
-			TµLog::log('testsite', 'DEBUG', "Données vides.");
+			TµLog::l("Paramètre vide.");
 			return;
 		}
-		$this->_loader->PostDao->create($author, $title, $content);
+		// ajout ou modification du post
+		if (!$id) {
+			$this->_loader->PostDao->create($author, $title, $content);
+		} else {
+			$this->_loader->PostDao->update($id, $author, $title, $content);
+		}
 	}
 
 	/**
 	 * Suppression d'un post.
 	 * On récupère l'id du Post :
-	 * @param int $id identité du post
+	 * @param    int    $id    identité du post
 	 */
 	public function supprimer(int $id) {
-		$this->_redirect('/post/liste/1');
 		$this->_loader->PostDao->remove($id);
+		$this->_redirect('/post/liste');
 	}
 
 	/**
 	 * Edition d'un post.
 	 * On récupère l'id du Post,
-	 * @param int $id identité du post
+	 * @param    int    $id    identité du post
 	 */
 	public function edition(int $id) {
-		$this->_redirect("/post/edition/{$id}");
+		$this['id'] = $id;
+		$this['post'] = $this->_loader->PostDao->get($id);
+		$this['author'] = $this->_session['author'];
 	}
+
 }
 

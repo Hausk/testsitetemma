@@ -21,8 +21,7 @@ class PostDao implements \Temma\Base\Loadable {
 	 * @return	array	Liste de tableaux associatifs.
 	 */
 	public function getList(int $page, int $pageSize=10) {
-		$sql = "SELECT
-				pos_i_id AS id,
+		$sql = "SELECT	pos_i_id AS id,
 				pos_d_creation AS dateCreation,
 				pos_s_author AS author,
 				pos_s_title AS title,
@@ -32,6 +31,20 @@ class PostDao implements \Temma\Base\Loadable {
 			LIMIT " . ((($page - 1) * $pageSize) + 1). ', ' . $pageSize;
 		$posts = $this->_db->queryAll($sql);
 		return ($posts);
+	}
+	/**
+	 * Retourne le post selectionné.
+	 * @param $id l'identifiant du post
+	 */
+	public function get(int $id) {
+		$sql = "SELECT	pos_i_id AS id,
+				pos_s_author AS author,
+				pos_s_title AS title,
+				pos_s_content AS content
+			FROM Post
+			WHERE pos_i_id = ". $this->_db->quote($id);
+		$post = $this->_db->queryOne($sql);
+		return ($post);
 	}
 	/**
 	 * Retourne le nombre total de posts.
@@ -64,10 +77,10 @@ class PostDao implements \Temma\Base\Loadable {
 	 * Suppression d'un post.
 	 * @param int $id identité du post.
 	 */
-	public function remove($id) {
-		$sql = "DELETE FROM Post WHERE pos_i_id = " . $this->_db->quote($id);
+	public function remove($id) : void {
+		$sql = "DELETE FROM Post
+			WHERE pos_i_id = " . $this->_db->quote($id);
 		$this->_db->exec($sql);
-		return ($this->_db->lastInsertId());
 	}
 
 	/**
@@ -76,12 +89,12 @@ class PostDao implements \Temma\Base\Loadable {
 	 * @param string $title tittre du post.
 	 * @param string $content contenu du post.
 	 */
-	public function update(int $id, string $title, string $content) : int {
+	public function update(int $id, string $author, string $title, string $content) : void {
 		$sql = "UPDATE Post
-				SET pos_s_title = " . $this->_db->quote($title) . ",
-				pos_s_content = " . $this->_db->quote($content) . ",
-				WHERE pos_i_id = " . $this->_db->quote($id);
+			SET pos_s_author = " . $this->_db->quote($author) . ", 
+			    pos_s_title = " . $this->_db->quote($title) . ",
+			    pos_s_content = " . $this->_db->quote($content) . "
+			WHERE pos_i_id = " . $this->_db->quote($id);
 		$this->_db->exec($sql);
-		return ($this->_db->lastInsertId());
 	}
 }

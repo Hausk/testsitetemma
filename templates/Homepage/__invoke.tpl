@@ -15,7 +15,7 @@
                                                 <h6 class="card-subtitle mb-2 text-muted">Ecrit par <span class="text-info">{$post.author|escape}</span></h6>
                                                 <p class="card-text">{$post.content|escape}</p>
                                                 <div class="d-flex justify-content-between">
-                                                    <a class="btn btn-warning" href="" title="Editer le post"><i class="fas fa-edit fa-lg"></i></a>
+                                                    <a class="btn btn-warning" href="/post/edition/{$post.id}" title="Editer le post"><i class="fas fa-edit fa-lg"></i></a>
                                                     <p class="text-muted my-auto">{$post.dateCreation|escape}</p>
                                                 </div>
                                         </div>
@@ -48,11 +48,11 @@
                                                         <span aria-hidden="true"></span>
                                                         </button>
                                                 </div>
-                                                <form action="/post/creation" method="POST">
+                                                <form action="/post/enregistrer" method="POST">
 
                                                         <div class="modal-body">
                                                                 <div class="form-group d-flex">
-                                                                        <input type="text" class="form-control me-1" name="author" placeholder="Nom" id="name">
+                                                                        <input type="text" class="form-control me-1" name="author" value="{$author|escape}">
                                                                         <input type="text" class="form-control ms-1" name="title" placeholder="Titre" id="title">
                                                                 </div>
                                                                 <div class="form-group">
