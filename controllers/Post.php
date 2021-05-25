@@ -26,8 +26,9 @@ class Post extends \Temma\Web\Controller {
 	 * - Titre du post.
 	 * - Contenu du post.
 	 */
-	public function creation() {
+	public function enregistrer() {
 		$this->_redirect('/post/liste/1');
+		$id = trim($_POST['id'] ?? null);
 		$author = trim($_POST['author'] ?? null);
 		$title = trim($_POST['title'] ?? null);
 		$content = trim($_POST['content'] ?? null);
@@ -43,9 +44,18 @@ class Post extends \Temma\Web\Controller {
 	 * On récupère l'id du Post :
 	 * @param int $id identité du post
 	 */
-	public function suppression($id) {
+	public function supprimer(int $id) {
 		$this->_redirect('/post/liste/1');
-		$this->_loader->PostDao->delete($id);
+		$this->_loader->PostDao->remove($id);
+	}
+
+	/**
+	 * Edition d'un post.
+	 * On récupère l'id du Post,
+	 * @param int $id identité du post
+	 */
+	public function edition(int $id) {
+		$this->_redirect("/post/edition/{$id}");
 	}
 }
 

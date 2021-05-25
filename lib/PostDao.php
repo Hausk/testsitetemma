@@ -64,8 +64,23 @@ class PostDao implements \Temma\Base\Loadable {
 	 * Suppression d'un post.
 	 * @param int $id identité du post.
 	 */
-	public function delete($id) {
+	public function remove($id) {
 		$sql = "DELETE FROM Post WHERE pos_i_id = " . $this->_db->quote($id);
+		$this->_db->exec($sql);
+		return ($this->_db->lastInsertId());
+	}
+
+	/**
+	 * Mettre à jour le post.
+	 * @param int $id identité du post.
+	 * @param string $title tittre du post.
+	 * @param string $content contenu du post.
+	 */
+	public function update(int $id, string $title, string $content) : int {
+		$sql = "UPDATE Post
+				SET pos_s_title = " . $this->_db->quote($title) . ",
+				pos_s_content = " . $this->_db->quote($content) . ",
+				WHERE pos_i_id = " . $this->_db->quote($id);
 		$this->_db->exec($sql);
 		return ($this->_db->lastInsertId());
 	}
