@@ -5,6 +5,11 @@
 		},
 		"rootController": "Homepage"
 	},
+	"plugins": {
+		"_pre": [
+			"CheckUser"
+		]
+	},
 	"loglevels": {
 		"Temma/Base": "DEBUG",
 		"Temma/Web": "DEBUG",
